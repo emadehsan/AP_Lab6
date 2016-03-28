@@ -36,6 +36,7 @@ public class Crawler {
 	
 	public static void saveFilesToIndex(final Path p) {
 		FilesToIndex f = new FilesToIndex(p.toString(), false, false);
+//		System.out.println("Path to files: " + p.toString());
 		filesToIndexs.add(f);
 	}
 	
@@ -60,7 +61,7 @@ public class Crawler {
         	pathStream.filter(
         				// should be a file not a dir
             			(p) -> !p.toFile().isDirectory() //&& p.toFile().getAbsolutePath().endsWith(extension)
-            		).forEach(p -> indexFiles(p, lines));
+            		).forEach(p -> indexFiles(p.toString()));
             
         } catch (final IOException e) {
         	e.printStackTrace();
@@ -68,7 +69,7 @@ public class Crawler {
         return lines;
     }
  
-    private static void indexFiles(final Path file, final List<String> lines) {
+    public static void indexFiles(String file) {
     	
     	try {
     		// store line's text
@@ -76,7 +77,7 @@ public class Crawler {
     		// store line number
     		int i = 0;
     		
-    		BufferedReader bReader = new BufferedReader(new FileReader(file.toFile()));
+    		BufferedReader bReader = new BufferedReader(new FileReader(file));
     		
 			while ((line = bReader.readLine()) != null) {
 				// Getting line by line
@@ -192,15 +193,16 @@ public class Crawler {
 //		findStartingMatch(keyword);
 //	}
 
-    static class FilesToIndex {
-    	public String name;
-    	public boolean isCrawled;
-    	public boolean isIndexed;
-    	
-    	public FilesToIndex(String name, boolean isCrawled, boolean isIndexed) {
-    		this.name = name;
-    		this.isCrawled = isCrawled;
-    		this.isIndexed = isIndexed;    		
-		}
-    }
+     
+}
+class FilesToIndex {
+	public String name;
+	public boolean isCrawled;
+	public boolean isIndexed;
+	
+	public FilesToIndex(String name, boolean isCrawled, boolean isIndexed) {
+		this.name = name;
+		this.isCrawled = isCrawled;
+		this.isIndexed = isIndexed;    		
+	}
 }
